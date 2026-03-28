@@ -1,14 +1,19 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { AuthModule } from './auth/auth.module';
-import { ReviewModule } from './review/review.module';
-import { ProductModule } from './product/product.module';
-import { TopPageModule } from './top-page/top-page.module';
+import { RoomModule } from './room/room.module';
+import { SchedulesModule } from './schedules/schedule.module';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
-  imports: [AuthModule, ReviewModule, ProductModule, TopPageModule],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [
+		MongooseModule.forRoot('mongodb://localhost:27017/nest', {
+			user: 'admin',
+			pass: 'secret',
+			authSource: 'admin',
+		}),
+		ConfigModule.forRoot(),
+		RoomModule,
+		SchedulesModule,
+	],
 })
 export class AppModule {}
